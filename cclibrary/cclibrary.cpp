@@ -3,7 +3,7 @@
 namespace CC
 {
 
-  std::unordered_set<BitPos> Graph::pieceNodes(const BitBoard& board,
+  std::unordered_set<BitPos> Graph::pieceNodes(const CC::BitBoard& board,
                                                PlayerId        player)
   {
 
@@ -71,24 +71,10 @@ namespace CC
     }
 
   }   // END namespace alg
+} // END namespace CC
 
-  Game::Game() {}
 
-  void Game::initNewGame(NoPlayers no_players) {}
-
-  bool Game::move(PlayerId player, BitMove move) { return false; }
-
-  BitPieces Game::pieces(PlayerId) const { return BitPieces(); }
-  BitPieces Game::goal(PlayerId) const { return BitPieces(); }
-
-  std::set<PlayerId> Game::players() const { return std::set<PlayerId>(); }
-
-  const BitBoard& Game::board() const
-  {
-
-    static BitBoard board;
-    return board;
-  }
-
+namespace MySoothingNamespace {
+  
 
 }   // END namespace CC

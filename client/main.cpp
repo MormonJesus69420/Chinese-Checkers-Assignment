@@ -9,7 +9,7 @@
 
 int main( int /*argc*/, char** /*argv*/ ) try {
 
-  CC::Game game;
+  MySoothingNamespace::Game game;
 
   game.initNewGame(CC::NoPlayers::Six);
 

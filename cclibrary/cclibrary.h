@@ -4,11 +4,17 @@
 #include <ccinterface.h>
 
 
-namespace CC
+namespace MySoothingNamespace
 {
 
 
+  class Game : public CC::GameInterface {
 
-}   // END namespace CC
+    // Missing stuff
+
+  };
+
+
+}   // END namespace MySoothingNamespace
 
 #endif   // CC_LIBRARY_H

@@ -21,10 +21,19 @@ endif()
 
 
 # Interface
-include_directories(${CC_INTERFACE_SOURCE_DIR})
-message("Interface include source dir: ${CC_INTERFACE_SOURCE_DIR}")
-link_directories(${CC_INTERFACE_BUILD_DIR})
-message("Interface include build dir: ${CC_INTERFACE_BUILD_DIR}")
+if(NOT CC_INTERFACE_SOURCE_DIR)
+  message( FATAL_ERROR "CC_INTERFACE_SOURCE_DIR not set")
+else()
+  include_directories(${CC_INTERFACE_SOURCE_DIR})
+  message("Interface include source dir: ${CC_INTERFACE_SOURCE_DIR}")
+endif()
+
+if(NOT CC_INTERFACE_BUILD_DIR)
+  message( FATAL_ERROR "CC_INTERFACE_BUILD_DIR not set")
+else()
+  link_directories(${CC_INTERFACE_BUILD_DIR})
+  message("Interface include build dir: ${CC_INTERFACE_BUILD_DIR}")
+endif()
 
 
 # Library

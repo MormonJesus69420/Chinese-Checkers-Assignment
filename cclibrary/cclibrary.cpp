@@ -3,18 +3,17 @@
 namespace CC
 {
 
-  std::unordered_set<BitPos> Graph::pieceNodes(const CC::BitBoard& board,
-                                               PlayerId        player)
+  BitNodeSet Graph::pieceNodes(const BitBoard& board, PlayerId player)
   {
 
-    std::unordered_set<BitPos> nodes;
+    BitNodeSet nodes;
     return nodes;
   }
 
-  std::unordered_set<BitPos> Graph::toNodes(const BitPieces& pieces)
+  BitNodeSet Graph::toNodes(const BitPieces& pieces)
   {
 
-    std::unordered_set<BitPos> nodes;
+    BitNodeSet nodes;
     return nodes;
   }
 
@@ -25,19 +24,17 @@ namespace CC
     return nbhd;
   }
 
-  std::unordered_set<BitMove> Graph::generateMoves(const BitBoard& board,
-                                                   PlayerId        player)
+  BitMoveSet Graph::generateMoves(const BitBoard& board, PlayerId player)
   {
 
-    std::unordered_set<BitMove> moves;
+    BitMoveSet moves;
     return moves;
   }
 
-  std::unordered_set<BitMove> Graph::generateMoves(const BitBoard& board,
-                                                   BitPos          node)
+  BitMoveSet Graph::generateMoves(const BitBoard& board, BitPos node)
   {
 
-    std::unordered_set<BitMove> moves;
+    BitMoveSet moves;
     return moves;
   }
 
@@ -71,10 +68,11 @@ namespace CC
     }
 
   }   // END namespace alg
-} // END namespace CC
+}   // END namespace CC
 
 
-namespace MySoothingNamespace {
-  
+namespace MySoothingNamespace
+{
+
 
 }   // END namespace CC

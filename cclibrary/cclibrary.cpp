@@ -2,36 +2,32 @@
 
 namespace CC {
 
-std::unordered_set<BitPos> Graph::pieceNodes(const CC::BitBoard &board,
-                                             PlayerId player) {
+BitNodeSet Graph::pieceNodes(const BitBoard &board, PlayerId player) {
 
-  std::unordered_set<BitPos> nodes;
+  BitNodeSet nodes;
   return nodes;
 }
 
-std::unordered_set<BitPos> Graph::toNodes(const BitPieces &pieces) {
+BitNodeSet Graph::toNodes(const BitPieces &pieces) {
 
-  std::unordered_set<BitPos> nodes;
+  BitNodeSet nodes;
   return nodes;
 }
 
 const BitNbhd &Graph::nbhdNodes(BitPos node) {
-
   static BitNbhd nbhd;
   return nbhd;
 }
 
-std::unordered_set<BitMove> Graph::generateMoves(const BitBoard &board,
-                                                 PlayerId player) {
+BitMoveSet Graph::generateMoves(const BitBoard &board, PlayerId player) {
 
-  std::unordered_set<BitMove> moves;
+  BitMoveSet moves;
   return moves;
 }
 
-std::unordered_set<BitMove> Graph::generateMoves(const BitBoard &board,
-                                                 BitPos node) {
+BitMoveSet Graph::generateMoves(const BitBoard &board, BitPos node) {
 
-  std::unordered_set<BitMove> moves;
+  BitMoveSet moves;
   return moves;
 }
 
@@ -64,44 +60,36 @@ std::vector<BitPos> dijkstraPath(BitBoard board, BitPos snode, BitPos enode) {
 
 namespace GaymSpace {
 using namespace CC;
-void Game::initNewGame(NoPlayers no_players)
-{
-    //TODO EVERYTHING
+void Game::initNewGame(NoPlayers no_players) {
+  // TODO EVERYTHING
 }
 
-bool Game::move(PlayerId player, BitMove move)
-{
-    // TODO
+bool Game::move(PlayerId player, BitMove move) {
+  // TODO
 
-    return false;
+  return false;
 }
 
-BitPieces Game::pieces(PlayerId) const
-{
-    // TODO
-    BitPieces pieces;
-    return pieces;
+BitPieces Game::pieces(PlayerId) const {
+  // TODO
+  BitPieces pieces;
+  return pieces;
 }
 
-BitPieces Game::goal(PlayerId) const
-{
-    // TODO
-    BitPieces pieces;
-    return pieces;
+BitPieces Game::goal(PlayerId) const {
+  // TODO
+  BitPieces pieces;
+  return pieces;
 }
 
-PlayerIdSet Game::players() const
-{
-    // TODO
-    PlayerIdSet set;
-    return set;
+PlayerIdSet Game::players() const {
+  // TODO
+  PlayerIdSet set;
+  return set;
 }
 
-const BitBoard &Game::board() const
-{
-    // TODO
-    return m_board;
+const BitBoard &Game::board() const {
+  // TODO
+  return m_board;
 }
 } // END namespace GaymSpace
-
-

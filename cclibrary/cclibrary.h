@@ -3,18 +3,18 @@
 
 #include <ccinterface.h>
 
+namespace GaymSpace {
 
-namespace MySoothingNamespace
-{
+class Game : public CC::GameInterface {
+public:
+  void initNewGame(CC::NoPlayers no_players) override;
+  bool move(CC::PlayerId player, CC::BitMove move) override;
+  CC::BitPieces pieces(CC::PlayerId) const override;
+  CC::BitPieces goal(CC::PlayerId) const override;
+  CC::PlayerIdSet players() const override;
+  const CC::BitBoard &board() const override;
+};
 
+} // END namespace GaymSpace
 
-  class Game : public CC::GameInterface {
-
-    // Missing stuff
-
-  };
-
-
-}   // END namespace MySoothingNamespace
-
-#endif   // CC_LIBRARY_H
+#endif // CC_LIBRARY_H

@@ -4,9 +4,6 @@
 // cc library
 #include "../cclibrary.h"
 
-using CustomGameClass = MySoothingNamespace::Game;
+using CustomGameClass = GaymSpace::Game;
 
-TEST (PredefinedUnittests, HelloWorld)
-{
-  CustomGameClass game;
-}
+TEST(PredefinedUnittests, HelloWorld) { CustomGameClass game; }

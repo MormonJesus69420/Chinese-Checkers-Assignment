@@ -9,7 +9,9 @@ using CustomGameClass = MySoothingNamespace::Game;
 TEST(PredefinedUnittests, BoardInitialization_TwoPlayerGame_PlayerAndGoalPieces)
 {
   CustomGameClass game;
-  game.initNewGame(CC::NoPlayers::Two);
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.initNewGame();
 
   // Player one
   EXPECT_EQ(game.pieces(CC::PlayerId::One),
@@ -29,7 +31,10 @@ TEST(PredefinedUnittests, BoardInitialization_TwoPlayerGame_PlayerAndGoalPieces)
 TEST(PredefinedUnittests, BoardInitialization_ThreePlayerGame_PlayerAndGoalPieces)
 {
   CustomGameClass game;
-  game.initNewGame(CC::NoPlayers::Three);
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.initNewGame();
 
   // Player one
   EXPECT_EQ(game.pieces(CC::PlayerId::One),
@@ -56,7 +61,12 @@ TEST(PredefinedUnittests, BoardInitialization_ThreePlayerGame_PlayerAndGoalPiece
 TEST(PredefinedUnittests, BoardInitialization_FourPlayerGame_PlayerAndGoalPieces)
 {
   CustomGameClass game;
-  game.initNewGame(CC::NoPlayers::Four);
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.initNewGame();
+
 
   // Player one
   EXPECT_EQ(game.pieces(CC::PlayerId::One),
@@ -90,7 +100,13 @@ TEST(PredefinedUnittests, BoardInitialization_FourPlayerGame_PlayerAndGoalPieces
 TEST(PredefinedUnittests, BoardInitialization_SixPlayerGame_PlayerAndGoalPieces)
 {
   CustomGameClass game;
-  game.initNewGame(CC::NoPlayers::Six);
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.initNewGame();
 
   // Player one
   EXPECT_EQ(game.pieces(CC::PlayerId::One),

@@ -10,11 +10,13 @@
 int main( int /*argc*/, char** /*argv*/ ) try {
 
   MySoothingNamespace::Game game;
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
 
-  game.initNewGame(CC::NoPlayers::Six);
+  game.initNewGame();
 
 
-  const auto& players = game.players();
+  const auto& players = game.playerIds();
   std::cout << "Player pieces:" << std::endl;
   for( const auto& player : players ) {
     std::cout << "  " << game.pieces(player) << " --> " << game.goal(player) << std::endl;

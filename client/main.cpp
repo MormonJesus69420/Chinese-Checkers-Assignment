@@ -11,7 +11,7 @@ int main( int /*argc*/, char** /*argv*/ ) try {
 
     GaymSpace::Game game;
 
-    game.initNewGame(CC::NoPlayers::Six);
+    game.initNewGame(CC::NoPlayers::Two);
 
 
     const auto& players = game.players();

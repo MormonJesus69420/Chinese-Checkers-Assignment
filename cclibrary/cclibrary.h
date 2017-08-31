@@ -13,6 +13,8 @@ public:
   CC::BitPieces goal(CC::PlayerId) const override;
   CC::PlayerIdSet players() const override;
   const CC::BitBoard &board() const override;
+private:
+  void initPlayer(CC::PieceSetId setId, bool firstIsStart);
 };
 
 } // END namespace GaymSpace

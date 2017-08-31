@@ -7,12 +7,17 @@ namespace GaymSpace {
 
 class Game : public CC::GameInterface {
 public:
-  void initNewGame(CC::NoPlayers no_players) override;
-  bool move(CC::PlayerId player, CC::BitMove move) override;
-  CC::BitPieces pieces(CC::PlayerId) const override;
+  bool initNewGame() override;
+  void clearGame() override;
+  bool move(CC::PlayerId player_id, CC::BitMove move) override;
+  void think(std::chrono::seconds max_time) override;
+  CC::PlayerType currentPlayerType() const override;
+  CC::BitPieces pieces(CC::PlayerId player_id) const override;
   CC::BitPieces goal(CC::PlayerId) const override;
-  CC::PlayerIdSet players() const override;
-  const CC::BitBoard &board() const override;
+  CC::PlayerIdSet playerIds() const;
+  const PlayerVector& players() const override;
+  const CC::BitBoard& board() const override;
+
 private:
   void initPlayer(CC::PieceSetId setId, bool firstIsStart);
 };

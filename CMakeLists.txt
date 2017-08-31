@@ -48,3 +48,9 @@ option(BUILD_CLIENT "Build CC client..." FALSE)
 if(BUILD_CLIENT)
   add_subdirectory(client)
 endif()
+
+# QtClient
+option(BUILD_QTCLIENT "Build CC Qt client..." FALSE)
+if(BUILD_QTCLIENT)
+  add_subdirectory(qtclient)
+endif()

@@ -17,9 +17,8 @@ public:
   CC::PlayerIdSet playerIds() const;
   const PlayerVector& players() const override;
   const CC::BitBoard& board() const override;
-
 private:
-  void initPlayer(CC::PieceSetId setId, bool firstIsStart);
+  void initPlayer(CC::PieceSetId setId, CC::PlayerId playerId);
 };
 
 } // END namespace GaymSpace

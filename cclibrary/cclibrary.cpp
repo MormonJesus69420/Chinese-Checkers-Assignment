@@ -71,7 +71,27 @@ std::vector<BitPos> dijkstraPath(BitBoard board, BitPos snode, BitPos enode) {
 namespace GaymSpace {
 using namespace CC;
 
-bool Game::initNewGame() { return false; }
+bool Game::initNewGame() {
+  const std::unordered_set<size_t> playerNumberSet = {
+      2, 3, 4, 6};
+
+  const auto playerNumber = NoPlayers(m_players.size());
+
+  if (playerNumberSet.count(size_t(playerNumber)) == 0) {
+    return false;
+  }
+
+  switch (playerNumber) {
+  case NoPlayers::Two:
+    initPlayer( PieceSetId::One, PlayerId::One);
+    initPlayer( PieceSetId::One , PlayerId::Two);
+    break;
+  default:
+    break;
+  }
+
+  return false;
+}
 
 void Game::clearGame() {}
 
@@ -100,12 +120,15 @@ const Game::PlayerVector &Game::players() const { return m_players; }
 
 const BitBoard &Game::board() const { return m_board; }
 
-void Game::initPlayer(PieceSetId setId, bool firstIsStart) {
+void Game::initPlayer(PieceSetId setId, CC::PlayerId playerId) {
   const auto &pair = pieceSets().at(size_t(setId));
-  BitPieces start = firstIsStart ? pair.first : pair.second;
-  BitPieces goal = firstIsStart ? pair.second : pair.first;
-  m_board.push_back(start);
-  m_goal.push_back(goal);
+  if (size_t(playerId) % 2 == 0) {
+    m_board.push_back(pair.first);
+    m_goal.push_back(pair.second);
+  } else {
+    m_board.push_back(pair.second);
+    m_goal.push_back(pair.first);
+  }
 }
 
 } // END namespace GaymSpace

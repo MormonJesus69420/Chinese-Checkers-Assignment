@@ -22,7 +22,7 @@ public:
 
   enum GoEngineModelRoles { OccupiedRole = Qt::UserRole + 1, PlayerNrRole };
 
-  CcGameModel(const MySoothingNamespace::Game& game_engine,
+  CcGameModel(const GaymSpace::Game& game_engine,
               QObject*                         parent = nullptr);
 
   int      rowCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -34,7 +34,7 @@ public slots:
   void update();
 
 private:
-  const MySoothingNamespace::Game& m_game_engine;
+  const GaymSpace::Game& m_game_engine;
 
   size_t boardSize() const;
 

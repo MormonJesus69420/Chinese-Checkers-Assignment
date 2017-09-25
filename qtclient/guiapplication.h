@@ -23,7 +23,7 @@ public:
   GuiApplication(int& argc, char** argv);
 
 private:
-  MySoothingNamespace::Game m_game_engine;
+  GaymSpace::Game m_game_engine;
   CcGameModel               m_model;
   QQmlApplicationEngine     m_app;
   int                       m_timer_id;

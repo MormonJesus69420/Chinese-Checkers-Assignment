@@ -8,6 +8,7 @@ find_package(Qt5Gui 5.9)
 
 # Files
 set( HDRS
+  ccgamemodel.h
   guiapplication.h )
 
 set( SRCS

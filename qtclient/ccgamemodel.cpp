@@ -1,6 +1,6 @@
 #include "ccgamemodel.h"
 
-CcGameModel::CcGameModel(const MySoothingNamespace::Game& game_engine,
+CcGameModel::CcGameModel(const GaymSpace::Game& game_engine,
                          QObject*                         parent)
   : QAbstractListModel(parent), m_game_engine{game_engine}
 {

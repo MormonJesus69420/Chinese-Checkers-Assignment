@@ -26,7 +26,7 @@ if(BUILD_LIBRARY_TESTS)
     enable_testing()
 
     # Tests
-    set(TESTS predefined_unittests)
+    set(TESTS predefined_unittests my_unittests)
 
     # Add tests
     foreach(TEST ${TESTS})

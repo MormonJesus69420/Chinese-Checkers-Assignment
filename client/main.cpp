@@ -10,6 +10,10 @@ int main(int /*argc*/, char ** /*argv*/) try {
   GaymSpace::Game game;
   game.addPlayer<CC::HumanPlayer>();
   game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
 
   game.initNewGame();
 

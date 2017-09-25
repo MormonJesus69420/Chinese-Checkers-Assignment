@@ -78,16 +78,16 @@ TEST(PredefinedUnittests, BoardInitialization_FourPlayerGame_PlayerAndGoalPieces
   // Player two
   EXPECT_EQ(
     game.pieces(CC::PlayerId::Two),
-    CustomGameClass::pieceSets().at(size_t(CC::PieceSetId::One)).second);
+    CustomGameClass::pieceSets().at(size_t(CC::PieceSetId::Two)).first);
   EXPECT_EQ(game.goal(CC::PlayerId::Two),
-            CustomGameClass::pieceSets().at(size_t(CC::PieceSetId::One)).first);
+            CustomGameClass::pieceSets().at(size_t(CC::PieceSetId::Two)).second);
 
   // Player three
   EXPECT_EQ(
     game.pieces(CC::PlayerId::Three),
-    CustomGameClass::pieceSets().at(size_t(CC::PieceSetId::Two)).first);
+    CustomGameClass::pieceSets().at(size_t(CC::PieceSetId::One)).second);
   EXPECT_EQ(game.goal(CC::PlayerId::Three),
-            CustomGameClass::pieceSets().at(size_t(CC::PieceSetId::Two)).second);
+            CustomGameClass::pieceSets().at(size_t(CC::PieceSetId::One)).first);
 
   // Player four
   EXPECT_EQ(

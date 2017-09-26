@@ -23,7 +23,8 @@ namespace GaymSpace {
     const CC::BitPieces& getPieces(const CC::PieceSetId& setId,
                                    bool                  getFirstInPair);
     void initPlayer(const CC::BitPieces& start, const CC::BitPieces& goal);
-    CC::PlayerId   currentPlayer = CC::PlayerId::One;
+    void         toggleCurrentPlayer();
+    CC::PlayerId currentPlayer = CC::PlayerId::One;
   };
 
 }   // END namespace GaymSpace

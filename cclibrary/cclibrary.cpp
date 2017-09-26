@@ -76,14 +76,16 @@ namespace CC {
 
     bool occupied(const BitPieces& pieces, BitPos node) {
       auto id = node.value();
-      if (node == BitPos::invalid()) return false;
+      if (node == BitPos::invalid() || node.value() < 0 || node.value() > 120)
+        return false;
 
       return pieces.test(id);
     }
 
     bool occupied(const BitBoard& board, BitPos node) {
       auto id = node.value();
-      if (node == BitPos::invalid()) return false;
+      if (node == BitPos::invalid() || node.value() < 0 || node.value() > 120)
+        return false;
 
       return occupiedPositions(board).test(id);
     }
@@ -143,7 +145,7 @@ namespace GaymSpace {
       return false;
     }
 
-    currentPlayer = PlayerId(0);
+    currentPlayer = PlayerId::One;
 
     switch (playerNumber) {
       case NoPlayers::Zero:
@@ -200,12 +202,20 @@ namespace GaymSpace {
   }
 
   bool Game::move(PlayerId player_id, BitMove move) {
-    // TODO UPDATE CURRENT PLAYER
     if (!alg::isLegalMove(m_board, player_id, move)) return false;
 
     m_board.at(size_t(player_id))[move.first.value()]  = 0;
     m_board.at(size_t(player_id))[move.second.value()] = 1;
+    toggleCurrentPlayer();
     return true;
+  }
+
+  void Game::toggleCurrentPlayer() {
+    auto playerCount = m_players.size();
+    auto currentId   = size_t(currentPlayer);
+    auto newId       = ++currentId % playerCount;
+
+    currentPlayer = PlayerId(newId);
   }
 
   void Game::think(std::chrono::seconds max_time) {

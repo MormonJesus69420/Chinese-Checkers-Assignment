@@ -103,7 +103,8 @@ TEST(MyUnittests, Pieces_ValidPlayer_ReturnsPlayerBitSet) {
 
   auto playerPieces = game.pieces(CC::PlayerId::One);
 
-  EXPECT_EQ(playerPieces, game.pieceSets().at(size_t(CC::PieceSetId::One)).first);
+  EXPECT_EQ(playerPieces,
+            game.pieceSets().at(size_t(CC::PieceSetId::One)).first);
 }
 
 TEST(MyUnittests, Pieces_InvalidPlayer_ReturnsEmptyBitSet) {
@@ -125,7 +126,8 @@ TEST(MyUnittests, Goal_ValidPlayer_ReturnsPlayerBitSet) {
 
   auto playerPieces = game.goal(CC::PlayerId::One);
 
-  EXPECT_EQ(playerPieces, game.pieceSets().at(size_t(CC::PieceSetId::One)).second);
+  EXPECT_EQ(playerPieces,
+            game.pieceSets().at(size_t(CC::PieceSetId::One)).second);
 }
 
 TEST(MyUnittests, Goal_InvalidPlayer_ReturnsEmptyBitSet) {
@@ -156,4 +158,27 @@ TEST(MyUnittests, PlayerIds__ReturnsProperSetOfIds) {
 
   EXPECT_EQ(ids1.size(), size_t(0));
   EXPECT_EQ(ids2.size(), size_t(6));
+}
+
+TEST(MyUnittests, ClearGame__ShouldResetGame) {
+  CustomGameClass game;
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.initNewGame();
+  game.clearGame();
+
+  auto board    = game.board();
+  auto goal     = game.goal(CC::PlayerId::One);
+  auto playerId = game.currentPlayerId();
+
+  EXPECT_EQ(board.size(), size_t(0));
+  EXPECT_EQ(goal, CC::BitPieces(
+                    std::string("0000000000000000000000000000000000000000"
+                                "0000000000000000000000000000000000000000"
+                                "00000000000000000000000000000000000000000")));
+  EXPECT_EQ(playerId, CC::PlayerId::One);
 }

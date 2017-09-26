@@ -3,26 +3,36 @@
 namespace CC {
 
   BitNodeSet Graph::pieceNodes(const BitBoard& board, PlayerId player) {
+    // TODO
+
     BitNodeSet nodes;
     return nodes;
   }
 
   BitNodeSet Graph::toNodes(const BitPieces& pieces) {
+    // TODO
+
     BitNodeSet nodes;
     return nodes;
   }
 
   const BitNbhd& Graph::nbhdNodes(BitPos node) {
+    // TODO
+
     static BitNbhd nbhd;
     return nbhd;
   }
 
   BitMoveSet Graph::generateMoves(const BitBoard& board, PlayerId player) {
+    // TODO
+
     BitMoveSet moves;
     return moves;
   }
 
   BitMoveSet Graph::generateMoves(const BitBoard& board, BitPos node) {
+    // TODO
+
     BitMoveSet moves;
     return moves;
   }
@@ -59,17 +69,23 @@ namespace CC {
 
     // Move validation
     bool isLegalMove(const BitBoard& board, PlayerId player, BitMove move) {
+      // TODO
+
       return false;
     }
 
     // Path finding
     std::vector<BitPos> dijkstraPath(BitBoard board, PlayerId player,
                                      BitPieces goal) {
+      // TODO
+
       return std::vector<BitPos>();
     }
 
     std::vector<BitPos> dijkstraPath(BitBoard board, BitPos snode,
                                      BitPos enode) {
+      // TODO
+
       return std::vector<BitPos>();
     }
 
@@ -108,10 +124,10 @@ namespace GaymSpace {
       case NoPlayers::Four:
         initPlayer(getPieces(PieceSetId::One, true),
                    getPieces(PieceSetId::One, false));
-        initPlayer(getPieces(PieceSetId::One, false),
-                   getPieces(PieceSetId::One, true));
         initPlayer(getPieces(PieceSetId::Two, true),
                    getPieces(PieceSetId::Two, false));
+        initPlayer(getPieces(PieceSetId::One, false),
+                   getPieces(PieceSetId::One, true));
         initPlayer(getPieces(PieceSetId::Two, false),
                    getPieces(PieceSetId::Two, true));
         break;
@@ -134,23 +150,42 @@ namespace GaymSpace {
     return true;
   }
 
-  void Game::clearGame() {}
+  void Game::clearGame() {
+    // TODO
+    m_board.clear();
+    m_goal.clear();
+    m_players.clear();
+    currentPlayer = PlayerId::One;
+  }
 
-  bool Game::move(PlayerId player_id, BitMove move) { return false; }
+  bool Game::move(PlayerId player_id, BitMove move) {
+    // TODO
+    return false;
+  }
 
-  void Game::think(std::chrono::seconds max_time) {}
+  void Game::think(std::chrono::seconds max_time) {
+    // TODO
+  }
 
-  PlayerType Game::currentPlayerType() const { return PlayerType::Human; }
+  PlayerType Game::currentPlayerType() const {
+    // TODO
+    return PlayerType::Human;
+  }
+
+  PlayerId Game::currentPlayerId() const {
+    // TODO
+    return PlayerId::One;
+  }
 
   BitPieces Game::pieces(PlayerId player_id) const {
     auto id = size_t(player_id);
-    if (id > m_board.size()) return BitPieces();
+    if (id >= m_board.size()) return BitPieces();
     return m_board[id];
   }
 
   BitPieces Game::goal(PlayerId player_id) const {
     auto id = size_t(player_id);
-    if (id > m_goal.size()) return BitPieces();
+    if (id >= m_goal.size()) return BitPieces();
     return m_goal[id];
   }
 

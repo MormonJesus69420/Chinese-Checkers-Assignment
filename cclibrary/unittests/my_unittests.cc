@@ -182,3 +182,19 @@ TEST(MyUnittests, ClearGame__ShouldResetGame) {
                                 "00000000000000000000000000000000000000000")));
   EXPECT_EQ(playerId, CC::PlayerId::One);
 }
+
+TEST(MyUnittests, PieceNodes_ValidInput_ShouldReturnBitNodeSet) {
+  CustomGameClass game;
+  game.addPlayer<CC::HumanPlayer>();
+  game.addPlayer<CC::HumanPlayer>();
+  game.initNewGame();
+
+  //auto pieces    = CC::alg::piec;
+
+  //EXPECT_EQ(board.size(), size_t(0));
+ // EXPECT_EQ(goal, CC::BitPieces(
+                   // std::string("0000000000000000000000000000000000000000"
+                    //            "0000000000000000000000000000000000000000"
+                    ///            "00000000000000000000000000000000000000000")));
+  //EXPECT_EQ(playerId, CC::PlayerId::One);
+}

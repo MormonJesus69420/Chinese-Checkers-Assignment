@@ -3,42 +3,63 @@
 namespace CC {
 
   BitNodeSet Graph::pieceNodes(const BitBoard& board, PlayerId player) {
-    // TODO
-
     BitNodeSet nodes;
+    if (size_t(player) >= board.size()) return nodes;
+
+    BitPieces pieces = board.at(size_t(player));
+    nodes            = toNodes(pieces);
+
+    if (nodes.size() != 10) return BitNodeSet();
+
     return nodes;
   }
 
   BitNodeSet Graph::toNodes(const BitPieces& pieces) {
-    // TODO
-
     BitNodeSet nodes;
+
+    for (size_t i = 0; i < pieces.size(); i++)
+      if (pieces.test(i)) nodes.emplace(BitPos{i});
+
     return nodes;
   }
 
   const BitNbhd& Graph::nbhdNodes(BitPos node) {
-    // TODO
-
-    static BitNbhd nbhd;
-    return nbhd;
+    auto& pair = m_graph.at(node.value());
+    return pair.second;
   }
 
   BitMoveSet Graph::generateMoves(const BitBoard& board, PlayerId player) {
-    // TODO
-
     BitMoveSet moves;
+    auto       nodes = pieceNodes(board, player);
+    for (auto node : nodes) {
+      auto nodeMoves = generateMoves(board, node);
+      moves.insert(nodeMoves.begin(), nodeMoves.end());
+    }
+
     return moves;
   }
 
   BitMoveSet Graph::generateMoves(const BitBoard& board, BitPos node) {
-    // TODO
+    BitMoveSet moves;   // Like Jagger
+    auto       firstNeighbor = nbhdNodes(node);
 
-    BitMoveSet moves;
+    for (size_t i = 0; i < firstNeighbor.size(); i++) {
+      BitPos& neigh = firstNeighbor.at(i);
+      if (neigh != BitPos::invalid()) {
+        if (!CC::alg::occupied(board, neigh))
+          moves.emplace(node, neigh);
+        else {
+          const BitPos& neigh2 = Graph::nbhdNodes(neigh).at(i);
+          if (neigh2 != BitPos::invalid() && !CC::alg::occupied(board, neigh2))
+            moves.emplace(node, neigh2);
+        }
+      }
+    }
     return moves;
   }
 
-  namespace alg {
 
+  namespace alg {
     // Board validation
     BitPieces occupiedPositions(const BitBoard& board) {
       BitPieces occupied
@@ -55,21 +76,39 @@ namespace CC {
 
     bool occupied(const BitPieces& pieces, BitPos node) {
       auto id = node.value();
-      if (id < 0 || id > 120) return true;
+      if (node == BitPos::invalid()) return false;
 
       return pieces.test(id);
     }
 
     bool occupied(const BitBoard& board, BitPos node) {
       auto id = node.value();
-      if (id < 0 || id > 120) return true;
+      if (node == BitPos::invalid()) return false;
 
       return occupiedPositions(board).test(id);
     }
 
     // Move validation
     bool isLegalMove(const BitBoard& board, PlayerId player, BitMove move) {
-      // TODO
+      auto id = size_t(player);
+      if (board.size() <= id) return false;
+
+      if (move.first == BitPos::invalid() || move.second == BitPos::invalid())
+        return false;
+
+      BitPieces pieces = board[id];
+      if (!occupied(pieces, move.first) || occupied(board, move.second))
+        return false;
+
+      auto neigh = Graph::nbhdNodes(move.first);
+      for (size_t i = 0; i < neigh.size(); i++) {
+        BitPos& neigh1 = neigh.at(i);
+        if (neigh1 == move.second) return true;
+        if (neigh1 != BitPos::invalid() && occupied(board, neigh1)) {
+          const BitPos& neigh2 = Graph::nbhdNodes(neigh1).at(i);
+          if (neigh2 != BitPos::invalid() && neigh2 == move.second) return true;
+        }
+      }
 
       return false;
     }
@@ -104,6 +143,8 @@ namespace GaymSpace {
       return false;
     }
 
+    currentPlayer = PlayerId(0);
+
     switch (playerNumber) {
       case NoPlayers::Zero:
         return false;
@@ -112,6 +153,7 @@ namespace GaymSpace {
                    getPieces(PieceSetId::One, false));
         initPlayer(getPieces(PieceSetId::One, false),
                    getPieces(PieceSetId::One, true));
+        move(PlayerId::One, BitMove{BitPos{5}, BitPos{17}});
         break;
       case NoPlayers::Three:
         initPlayer(getPieces(PieceSetId::One, true),
@@ -151,7 +193,6 @@ namespace GaymSpace {
   }
 
   void Game::clearGame() {
-    // TODO
     m_board.clear();
     m_goal.clear();
     m_players.clear();
@@ -159,8 +200,12 @@ namespace GaymSpace {
   }
 
   bool Game::move(PlayerId player_id, BitMove move) {
-    // TODO
-    return false;
+    // TODO UPDATE CURRENT PLAYER
+    if (!alg::isLegalMove(m_board, player_id, move)) return false;
+
+    m_board.at(size_t(player_id))[move.first.value()]  = 0;
+    m_board.at(size_t(player_id))[move.second.value()] = 1;
+    return true;
   }
 
   void Game::think(std::chrono::seconds max_time) {
@@ -172,10 +217,7 @@ namespace GaymSpace {
     return PlayerType::Human;
   }
 
-  PlayerId Game::currentPlayerId() const {
-    // TODO
-    return PlayerId::One;
-  }
+  PlayerId Game::currentPlayerId() const { return currentPlayer; }
 
   BitPieces Game::pieces(PlayerId player_id) const {
     auto id = size_t(player_id);

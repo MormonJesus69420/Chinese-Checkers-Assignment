@@ -7,11 +7,8 @@ namespace CC {
     if (size_t(player) >= board.size()) return nodes;
 
     BitPieces pieces = board.at(size_t(player));
-    nodes            = toNodes(pieces);
 
-    if (nodes.size() != 10) return BitNodeSet();
-
-    return nodes;
+    return toNodes(pieces);
   }
 
   BitNodeSet Graph::toNodes(const BitPieces& pieces) {
@@ -24,14 +21,12 @@ namespace CC {
   }
 
   const BitNbhd& Graph::nbhdNodes(BitPos node) {
-    auto& pair = m_graph.at(node.value());
-    return pair.second;
+    return m_graph.at(node.value()).second;
   }
 
   BitMoveSet Graph::generateMoves(const BitBoard& board, PlayerId player) {
     BitMoveSet moves;
-    auto       nodes = pieceNodes(board, player);
-    for (auto node : nodes) {
+    for (auto node : pieceNodes(board, player)) {
       auto nodeMoves = generateMoves(board, node);
       moves.insert(nodeMoves.begin(), nodeMoves.end());
     }
@@ -44,14 +39,14 @@ namespace CC {
     auto       firstNeighbor = nbhdNodes(node);
 
     for (size_t i = 0; i < firstNeighbor.size(); i++) {
-      BitPos& neigh = firstNeighbor.at(i);
-      if (neigh != BitPos::invalid()) {
-        if (!CC::alg::occupied(board, neigh))
-          moves.emplace(node, neigh);
+      if (firstNeighbor.at(i) != BitPos::invalid()) {
+        if (!CC::alg::occupied(board, firstNeighbor.at(i)))
+          moves.emplace(node, firstNeighbor.at(i));
         else {
-          const BitPos& neigh2 = Graph::nbhdNodes(neigh).at(i);
-          if (neigh2 != BitPos::invalid() && !CC::alg::occupied(board, neigh2))
-            moves.emplace(node, neigh2);
+          auto secondNeighbor = nbhdNodes(firstNeighbor.at(i));
+          if (secondNeighbor.at(i) != BitPos::invalid()
+              && !CC::alg::occupied(board, secondNeighbor.at(i)))
+            moves.emplace(node, secondNeighbor.at(i));
         }
       }
     }
@@ -62,10 +57,7 @@ namespace CC {
   namespace alg {
     // Board validation
     BitPieces occupiedPositions(const BitBoard& board) {
-      BitPieces occupied
-        = BitPieces(std::string("0000000000000000000000000000000000000000"
-                                "0000000000000000000000000000000000000000"
-                                "00000000000000000000000000000000000000000"));
+      BitPieces occupied;
 
       for (BitPieces bp : board) {
         occupied |= bp;
@@ -75,40 +67,39 @@ namespace CC {
     }
 
     bool occupied(const BitPieces& pieces, BitPos node) {
-      auto id = node.value();
       if (node == BitPos::invalid() || node.value() < 0 || node.value() > 120)
         return false;
 
-      return pieces.test(id);
+      return pieces.test(node.value());
     }
 
     bool occupied(const BitBoard& board, BitPos node) {
-      auto id = node.value();
       if (node == BitPos::invalid() || node.value() < 0 || node.value() > 120)
         return false;
 
-      return occupiedPositions(board).test(id);
+      return occupiedPositions(board).test(node.value());
     }
 
     // Move validation
     bool isLegalMove(const BitBoard& board, PlayerId player, BitMove move) {
-      auto id = size_t(player);
-      if (board.size() <= id) return false;
-
+      // Check valid PlayerId
+      if (board.size() <= size_t(player)) return false;
+      // Check if BitMove has valid BitPos
       if (move.first == BitPos::invalid() || move.second == BitPos::invalid())
         return false;
-
-      BitPieces pieces = board[id];
-      if (!occupied(pieces, move.first) || occupied(board, move.second))
+      // Check if BitMove tries to move a player piece to unoccupied position
+      if (!occupied(board[size_t(player)], move.first)
+          || occupied(board, move.second))
         return false;
 
       auto neigh = Graph::nbhdNodes(move.first);
       for (size_t i = 0; i < neigh.size(); i++) {
-        BitPos& neigh1 = neigh.at(i);
-        if (neigh1 == move.second) return true;
-        if (neigh1 != BitPos::invalid() && occupied(board, neigh1)) {
-          const BitPos& neigh2 = Graph::nbhdNodes(neigh1).at(i);
-          if (neigh2 != BitPos::invalid() && neigh2 == move.second) return true;
+        if (neigh.at(i) == move.second) return true;
+        if (neigh.at(i) != BitPos::invalid() && occupied(board, neigh.at(i))) {
+          auto neighNeigh = Graph::nbhdNodes(neigh.at(i));
+          if (neighNeigh.at(i) != BitPos::invalid()
+              && neighNeigh.at(i) == move.second)
+            return true;
         }
       }
 
@@ -125,9 +116,9 @@ namespace CC {
 
     std::vector<BitPos> dijkstraPath(BitBoard board, BitPos snode,
                                      BitPos enode) {
-      // TODO
-
-      return std::vector<BitPos>();
+      std::vector<BitPos> found, front, left;
+      left.
+        return std::vector<BitPos>();
     }
 
   }   // END namespace alg
@@ -155,7 +146,6 @@ namespace GaymSpace {
                    getPieces(PieceSetId::One, false));
         initPlayer(getPieces(PieceSetId::One, false),
                    getPieces(PieceSetId::One, true));
-        move(PlayerId::One, BitMove{BitPos{5}, BitPos{17}});
         break;
       case NoPlayers::Three:
         initPlayer(getPieces(PieceSetId::One, true),
@@ -223,8 +213,7 @@ namespace GaymSpace {
   }
 
   PlayerType Game::currentPlayerType() const {
-    // TODO
-    return PlayerType::Human;
+    return m_players.at(size_t(currentPlayer))->type();
   }
 
   PlayerId Game::currentPlayerId() const { return currentPlayer; }

@@ -1,4 +1,8 @@
 #include "cclibrary.h"
+#include <algorithm>
+#include <deque>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace CC {
 
@@ -109,16 +113,67 @@ namespace CC {
     // Path finding
     std::vector<BitPos> dijkstraPath(BitBoard board, PlayerId player,
                                      BitPieces goal) {
-      // TODO
-
-      return std::vector<BitPos>();
+        auto goalNodes = Graph::toNodes(goal & (~board.at(size_t(player))));
+        auto playerNodes = Graph::toNodes(board.at(size_t(player)));
+        std::vector<BitPos> shortestPath{};
+        auto shortestLength = std::numeric_limits<size_t>::max();
+        for (const auto& snode : playerNodes) {
+          for (const auto& enode : goalNodes) {
+            auto path = dijkstraPath(board, snode, enode);
+            if (path.size() == 0) {
+              continue;  // no path from snode to enode
+            }
+            else if (path.size() - 1 < shortestLength) {
+              shortestLength = path.size() - 1;
+              shortestPath.clear();
+              shortestPath = path;
+            }
+          }
+        }
+        return shortestPath;
     }
 
     std::vector<BitPos> dijkstraPath(BitBoard board, BitPos snode,
                                      BitPos enode) {
-      std::vector<BitPos> found, front, left;
-      left.
-        return std::vector<BitPos>();
+      bool                       found;
+      std::deque<BitPos>         front;
+      std::unordered_set<BitPos> explored;
+      std::unordered_map<BitPos, BitPos> parents;
+      front.push_back(snode);
+
+      while (!front.empty() && !found) {
+        auto node = front.front();
+        front.pop_front();
+
+        for (const auto& neigh : Graph::nbhdNodes(node)) {
+          if (neigh == BitPos::invalid()) continue;
+          if (neigh == enode) {
+            found          = true;
+            parents[neigh] = node;
+            break;
+          }
+          // if not in frontier and not explored, add to frontier
+          if ((std::find(front.begin(), front.end(), neigh) == front.end())
+              && (std::find(explored.begin(), explored.end(), neigh)
+                  == explored.end())) {
+            front.push_back(neigh);
+            parents[neigh] = node;
+          }
+        }
+        explored.insert(node);
+      }
+
+      if (!found) return std::vector<BitPos>();
+
+      std::vector<BitPos> path;
+      auto node = enode;
+      while (node != snode) {
+        path.push_back(node);
+        node = parents[node];
+      }
+      path.push_back(snode);
+      std::reverse(path.begin(), path.end());
+      return path;
     }
 
   }   // END namespace alg

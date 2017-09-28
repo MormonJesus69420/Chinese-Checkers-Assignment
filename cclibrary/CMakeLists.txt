@@ -3,8 +3,8 @@ project(cclibrary VERSION 0.1 LANGUAGES CXX)
 
 
 # List source files
-set( HDRS cclibrary.h)
-set( SRCS cclibrary.cpp)
+set( HDRS cclibrary.h aiplayer.h)
+set( SRCS cclibrary.cpp aiplayer.cpp)
 add_library(${PROJECT_NAME} ${HDRS} ${SRCS})
 
 

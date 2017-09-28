@@ -164,3 +164,11 @@ TEST(MyUnittests, PlayerIds__ReturnsProperSetOfIds) {
   EXPECT_EQ(ids1.size(), size_t(0));
   EXPECT_EQ(ids2.size(), size_t(6));
 }
+
+TEST(MyUnittests, Dijkstra__ReturnsProperSetOfIds) {
+    auto vec = std::vector<CC::BitPos> {CC::BitPos{0},CC::BitPos{2},CC::BitPos{5},CC::BitPos{9}};
+  auto path = CC::alg::dijkstraPath(twoPlayerBoard, CC::BitPos{0},CC::BitPos{9});
+
+  EXPECT_EQ(path.size(), size_t(4));
+  EXPECT_EQ(path, vec);
+}

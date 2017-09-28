@@ -9,12 +9,12 @@ namespace GaymSpace {
                        CC::PlayerId player_id, std::chrono::seconds max_time) {
     CC::BitMoveSet bms = CC::Graph::generateMoves(pieces, player_id);
 
-    std::random_device              rd;
-    std::mt19937                    gen(rd());
-    std::uniform_int_distribution<> dis(0, bms.size() - 1);
+    std::random_device              rndm;
+    std::mt19937                    gen(rndm());
+    std::uniform_int_distribution<> dist(0, bms.size() - 1);
     std::vector<CC::BitMove>        bitMoveVector(bms.begin(), bms.end());
 
-    bestBitMove = bitMoveVector.at(dis(gen));
+    bestBitMove = bitMoveVector.at(dist(gen));
   }
 
   CC::BitMove AiPlayer::bestMove() const { return bestBitMove; }

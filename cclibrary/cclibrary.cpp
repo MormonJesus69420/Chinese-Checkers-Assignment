@@ -152,7 +152,7 @@ namespace CC {
             parents[neigh] = node;
             break;
           }
-          // if not in frontier and not explored, add to frontier
+          // if not in front and not explored, add to frontier
           if ((std::find(front.begin(), front.end(), neigh) == front.end())
               && (std::find(explored.begin(), explored.end(), neigh)
                   == explored.end())) {

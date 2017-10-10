@@ -2,6 +2,7 @@
 
 // cc lib
 #include "../cclibrary/cclibrary.h"
+#include "../cclibrary/aiplayer.h"
 
 
 // stl

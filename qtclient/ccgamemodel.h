@@ -20,23 +20,26 @@ class CcGameModel : public QAbstractListModel {
 public:
   Q_PROPERTY(int boardSize READ boardSize NOTIFY boardSizeChanged)
 
-  enum GoEngineModelRoles { OccupiedRole = Qt::UserRole + 1, PlayerNrRole };
+  enum GoEngineModelRoles {
+    OccupiedRole = Qt::UserRole + 1,
+    PlayerNrRole,
+    CenterPositionRole,
+    PositonRole
+  };
 
-  CcGameModel(const GaymSpace::Game& game_engine,
-              QObject*                         parent = nullptr);
+  CcGameModel(const GaymSpace::Game& game_engine, QObject* parent = nullptr);
 
-  int      rowCount(const QModelIndex& parent = QModelIndex()) const override;
+  int rowCount(const QModelIndex& parent = QModelIndex()) const override;
   QVariant data(const QModelIndex& index, int role) const override;
   QHash<int, QByteArray> roleNames() const override;
-
 
 public slots:
   void update();
 
 private:
+  size_t                 boardSize() const;
   const GaymSpace::Game& m_game_engine;
-
-  size_t boardSize() const;
+  QPointF getPosition(const size_t& index) const;
 
 signals:
   void boardSizeChanged(size_t);

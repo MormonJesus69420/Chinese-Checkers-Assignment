@@ -113,24 +113,23 @@ namespace CC {
     // Path finding
     std::vector<BitPos> dijkstraPath(BitBoard board, PlayerId player,
                                      BitPieces goal) {
-        auto goalNodes = Graph::toNodes(goal & (~board.at(size_t(player))));
-        auto playerNodes = Graph::toNodes(board.at(size_t(player)));
-        std::vector<BitPos> shortestPath{};
-        auto shortestLength = std::numeric_limits<size_t>::max();
-        for (const auto& snode : playerNodes) {
-          for (const auto& enode : goalNodes) {
-            auto path = dijkstraPath(board, snode, enode);
-            if (path.size() == 0) {
-              continue;  // no path from snode to enode
-            }
-            else if (path.size() - 1 < shortestLength) {
-              shortestLength = path.size() - 1;
-              shortestPath.clear();
-              shortestPath = path;
-            }
+      auto goalNodes   = Graph::toNodes(goal & (~board.at(size_t(player))));
+      auto playerNodes = Graph::toNodes(board.at(size_t(player)));
+      std::vector<BitPos> shortestPath{};
+      auto                shortestLength = std::numeric_limits<size_t>::max();
+      for (const auto& snode : playerNodes) {
+        for (const auto& enode : goalNodes) {
+          auto path = dijkstraPath(board, snode, enode);
+          if (path.size() == 0) {
+            continue;   // no path from snode to enode
+          } else if (path.size() - 1 < shortestLength) {
+            shortestLength = path.size() - 1;
+            shortestPath.clear();
+            shortestPath = path;
           }
         }
-        return shortestPath;
+      }
+      return shortestPath;
     }
 
     std::vector<BitPos> dijkstraPath(BitBoard board, BitPos snode,
@@ -166,7 +165,7 @@ namespace CC {
       if (!found) return std::vector<BitPos>();
 
       std::vector<BitPos> path;
-      auto node = enode;
+      auto                node = enode;
       while (node != snode) {
         path.push_back(node);
         node = parents[node];
@@ -264,7 +263,9 @@ namespace GaymSpace {
   }
 
   void Game::think(std::chrono::seconds max_time) {
-    // TODO
+    const auto& player = m_players.at(size_t(currentPlayer));
+    player->think(m_board, m_goal, currentPlayer, max_time);
+    move(currentPlayer, player->bestBitMove());
   }
 
   PlayerType Game::currentPlayerType() const {

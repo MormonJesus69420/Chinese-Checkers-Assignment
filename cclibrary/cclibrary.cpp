@@ -110,7 +110,7 @@ namespace CC {
       return false;
     }
 
-    // Path finding
+    // Path finding done with a help from Antonio Agripino
     std::vector<BitPos> dijkstraPath(BitBoard board, PlayerId player,
                                      BitPieces goal) {
       auto goalNodes   = Graph::toNodes(goal & (~board.at(size_t(player))));
@@ -121,7 +121,7 @@ namespace CC {
         for (const auto& enode : goalNodes) {
           auto path = dijkstraPath(board, snode, enode);
           if (path.size() == 0) {
-            continue;   // no path from snode to enode
+            continue;
           } else if (path.size() - 1 < shortestLength) {
             shortestLength = path.size() - 1;
             shortestPath.clear();
@@ -151,7 +151,6 @@ namespace CC {
             parents[neigh] = node;
             break;
           }
-          // if not in front and not explored, add to frontier
           if ((std::find(front.begin(), front.end(), neigh) == front.end())
               && (std::find(explored.begin(), explored.end(), neigh)
                   == explored.end())) {

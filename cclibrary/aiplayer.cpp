@@ -8,6 +8,9 @@ using namespace CC;
 namespace GaymSpace {
   AiPlayer::AiPlayer() {}
 
+  // AI developed alongside Chris Hagerup. Where we worked on it together and
+  // then made some minor changes in our versions when we finally got a working
+  // solution.
   void AiPlayer::think(const BitBoard& pieces, const BitBoard& goals,
                        PlayerId player_id, std::chrono::seconds max_time) {
     if (valuesNotInitialized) {

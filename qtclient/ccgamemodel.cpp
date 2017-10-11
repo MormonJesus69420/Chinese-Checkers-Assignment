@@ -71,6 +71,7 @@ void CcGameModel::update() {
 
 
 
+// I WARNED YOU
 
 
 
@@ -81,33 +82,8 @@ void CcGameModel::update() {
 
 
 
-
-
-
-
-
-
-
-
-
- // I WARNED YOU
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// HEI MARIUS !
-
+// Awfully long switch case used to calculate relativistic positions for each
+// piece on board. Courtesy of Clemence Picard.
 QPointF CcGameModel::getPosition(const size_t& index) const {
   float l = 1 / 8.5;
   switch (index) {
